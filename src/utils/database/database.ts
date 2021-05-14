@@ -77,6 +77,11 @@ class Database {
     return dado.id;
   }
 
+  async contar<T extends Entity>(filtro: FilterQuery<T>, table: string) {
+    const dados = (nodeCache.get(table) as Array<T>) || [];
+    return this.filtrar(dados, filtro).length
+  }
+
   async alterar<T extends Entity>(filtro: FilterQuery<T>, dado: Partial<T>, table: string) {
     const dados = (nodeCache.get(table) as Array<T>) || [];
     const registrosAlterados = this.filtrar(dados, filtro).map((d) => {

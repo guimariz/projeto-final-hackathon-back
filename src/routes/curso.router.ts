@@ -12,6 +12,16 @@ router.post('/curso', async (req: Request, res: Response, next: NextFunction) =>
   } catch (e) {
     next(e);
   }
+})
+
+router.put('/curso/nota/', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { idCurso, nota, idAluno, tipo } = req.body
+    const mensagem: Mensagem = await new CursoController().incluirNota(idCurso, nota, idAluno, tipo);
+    res.json(mensagem);
+  } catch (e) {
+    next(e);
+  }
 });
 
 router.put('/curso/:id', async (req: Request, res: Response, next: NextFunction) => {
@@ -34,6 +44,25 @@ router.delete('/curso/:id', async (req: Request, res: Response, next: NextFuncti
   }
 });
 
+router.get('/curso/qtd', async (req: any, res: Response, next: NextFunction) => {
+  try {
+    let qtd = await new CursoController().contar();
+    res.json(qtd);
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.get('/curso/prof/:id', async (req: any, res: Response, next: NextFunction) => {
+  try {
+    const { id } = req.params;
+    const data = await new CursoController().listar({ idProfessor: Number(id) });
+    res.json(data);
+  } catch (e) {
+    next(e);
+  }
+});
+
 router.get('/curso/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
@@ -46,8 +75,20 @@ router.get('/curso/:id', async (req: Request, res: Response, next: NextFunction)
 
 router.get('/curso', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const cursos: Curso[] = await new CursoController().listar();
+    const cursos: Curso[] = await new CursoController().listar({});
     res.json(cursos);
+  } catch (e) {
+    next(e);
+  }
+});
+router.get('/home/curso', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const cursos: Curso[] = await new CursoController().listar({});
+    let data;
+    if(cursos)
+      data = cursos.slice(0, 5);
+    
+    res.json(data);
   } catch (e) {
     next(e);
   }

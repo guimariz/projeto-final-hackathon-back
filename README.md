@@ -7,45 +7,48 @@ Chegou a hora do desafio final!!!!
 Professor:
 
 Listar => listar todos os professores trazendo a informação de quais cursos eles lecionam
-BACKEND PRONTO
+PRONTO --------------------------------------------------------------
 
 Incluir => incluir um professor seguindo as seguintes regras: Não permitir incluir com e-mail repetido, validar obrigatoriedade dos campos nome, email, senha, criptografar a senha antes de inserir na base utilizando os recursos já disponíveis no código
-BACKEND PRONTO
+PRONTO --------------------------------------------------------------
 
 Alterar => alterar um professor seguindo as seguintes regras: Não permitir alterar o e-mail, validar obrigatoriedade dos campos nome, senha, criptografar a senha antes de inserir na base utilizando os recursos já disponíveis no código, somente o próprio professor pode altera seus dados
-BACKEND QUASE PRONTO
+PRONTO --------------------------------------------------------------
 
 Excluir => excluir um professor seguindo as seguintes regras: Não permitir que o professor seja excluido caso esteja vinculado a algum curso, somente um professor pode excluir outro professor
-BACKEND QUASE PRONTO
+PRONTO --------------------------------------------------------------
 
 Aluno:
 
 Listar => listar todos os alunos trazendo a informação de quais cursos eles estão matriculados
 BACKEND PRONTO
+PRONTO --------------------------------------------------------------
 
 Incluir => incluir um aluno seguindo as seguintes regras: Não permitir incluir com e-mail repetido, validar obrigatoriedade dos campos nome, email, senha, formacao, idade, criptografar a senha antes de inserir na base utilizando os recursos já disponíveis no código
-BACKEND PRONTO
+PRONTO --------------------------------------------------------------
 
 Alterar => alterar um aluno seguindo as seguintes regras: Não permitir alterar o e-mail, validar obrigatoriedade dos campos nome, senha, criptografar a senha antes de inserir na base utilizando os recursos já disponíveis no código, somente o próprio aluno ou um professor pode altera seus dados
-BACKEND QUASE PRONTO
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< falta criar área aluno
 
 Excluir => excluir um aluno seguindo as seguintes regras: Não permitir que o aluno seja excluido caso esteja matriculado a algum curso, somente um professor pode excluir um aluno
-BACKEND QUASE PRONTO
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< falta criar área aluno
 
 Matricular Curso => matricular um aluno em um curso seguindo as seguintes regras: Não permitir que o aluno matricule-se mais de uma vez no mesmo curso
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< falta criar área aluno
 
 Curso:
 
 Listar => listar todos os cursos disponiveis
-BACKEND PRONTO
+PRONTO --------------------------------------------------------------
 
 Incluir => incluir um curso seguindo as seguintes regras: Não permitir incluir com nome repetido, validar obrigatoriedade dos campos nome, professor, aulas e descrição, somente um professor pode incluir um curso
-BACKEND QUASE PRONTO
+PRONTO --------------------------------------------------------------
 
 Alterar => alterar um curso seguindo as seguintes regras: Validar obrigatoriedade dos campos nome, professor, aulas e descrição, somente um professor pode alterar um curso
-BACKEND QUASE PRONTO
+PRONTO --------------------------------------------------------------
 
 Excluir => excluir um curso seguindo as seguintes regras: Não permitir que o curso seja excluido caso tenha alunos matriculados
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< falta criar área aluno
 
 Aula:
 

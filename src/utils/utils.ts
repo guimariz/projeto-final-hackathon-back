@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import AlunoController from '../controllers/aluno.controller';
+import AulaController from '../controllers/aula.controller';
 import CursoController from '../controllers/curso.controller';
 import ProfessorController from '../controllers/professor.controller';
 import alunoRepository from '../repositories/aluno.repository';
@@ -37,7 +38,7 @@ export const Validador = {
     const isValid = bcrypt.compareSync(senha, senhaAtual);
 
     if (!isValid) {
-      throw new UnauthorizedException('Usuário ou senha inválida.');
+      throw new UnauthorizedException('Senha inválida.');
     }
   },  
 
@@ -55,22 +56,54 @@ export const Validador = {
       throw err
     }
   },
+
+  validarNomeRepetido: async (nome: string) => {
+    try {
+      const data = await new CursoController().listar({nome: nome})
+
+      if(data.length) {
+        throw new Exception('Nome já cadastrado.') 
+      }
+    } catch (error) {
+      throw error
+    }
+  },
+
+  validarNomeAulaRepetido: async (nome: string, idCurso: number) => {
+    try {
+      const getAulas = await new AulaController().listarTodos({id: idCurso});
+
+      if(getAulas.find(i => i.nome === nome)) {
+        throw new Exception('Nome já cadastrado.') 
+      }
+      
+    } catch (error) {
+      throw error
+    }
+  },
   
-  validarNomeRepetido: (nome: string) => {
-    if(new CursoController().listar({nome})) {
-      throw new Exception('Nome já cadastrado.') 
+  validarIsProf: async (id: number) => {
+    try {
+      const data = await new ProfessorController().listar({ id: id })
+    
+      if(!data.length) {
+        throw new Exception('A id do professor não existe.') 
+      }
+      
+    } catch (error) {
+      throw error
     }
   },
 
   validarAlterarEmail: (id: number, email: string, tipo: number) => {
-      if(tipo == 1) {
+      if(tipo == TipoUsuario.PROFESSOR) {
         let validaEmail = new ProfessorController().obterPorId(id);
         validaEmail.then(res => {
           if(email == res.email) {
             throw new Exception('E-mail inválido, digite o mesmo e-mail anterior.')
           }
         })
-      } else {
+      } else if (tipo==TipoUsuario.ALUNO) {
         let validaEmail = new AlunoController().obterPorId(id);
         
         validaEmail.then(res => {
@@ -95,18 +128,24 @@ export const Validador = {
     
   },
 
-  validarExcluirProf: async (id: number, dadosUsuario: any) => {
+  validarExcluirProf: async (id: number, tipo: any) => {
 
-    if(dadosUsuario.tipo != TipoUsuario.PROFESSOR){
+    if(tipo !== TipoUsuario.PROFESSOR){
       throw new Exception('Não tem permissão para excluir.')
     }
 
     const data = await new CursoController().listar({idProfessor: id})
-
+    console.log(data) 
     if(data.length){
       throw new Exception('Não é possível excluir com cursos vinculados.')
     }
 
+  }, 
+
+  validarIncluirNota: (tipo: number) => {
+    if(tipo !== TipoUsuario.ALUNO){
+      throw new Exception('Não tem permissão para avaliar.')
+    }
   }
 
 };

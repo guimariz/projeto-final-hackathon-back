@@ -1,9 +1,10 @@
 import Aluno from '../entities/aluno.entity';
 import AlunoRepository from '../repositories/aluno.repository';
 import { FilterQuery } from '../utils/database/database';
-import Exception from '../utils/exceptions/exception';
 import Mensagem from '../utils/mensagem';
+import { TipoUsuario } from '../utils/tipo-usuario.enum';
 import { Validador } from '../utils/utils';
+import CursoController from './curso.controller';
 
 export default class AlunoController {
   async obterPorId(id: number): Promise<Aluno> {
@@ -20,19 +21,28 @@ export default class AlunoController {
     return await AlunoRepository.listar(filtro);
   }
 
-  async listarTodos(): Promise<Aluno[]> {
-    let data = await AlunoRepository.listarTodos();
-    data = data.filter(data => data.tipo == 2)
-    return data 
+  async contar(): Promise<number> {
+    const filtro = { tipo: TipoUsuario.ALUNO }
+    return await AlunoRepository.contar(filtro);
   }
 
   // #pegabandeira
   async incluir(aluno: Aluno) {
     try {
-      const { nome, formacao, idade, email, senha, tipo } = aluno;
+      const { nome, formacao, idade, email, senha } = aluno;
       Validador.validarParametros([{ nome }, { formacao }, { idade }, { email }, { senha }]);
       await Validador.validarEmailRepetido(email);
-      const id = await AlunoRepository.incluir(aluno);
+      
+      let data: any= {
+        email: aluno.email,
+        senha: aluno.senha,
+        nome: aluno.nome,
+        tipo: aluno.tipo,
+        idade: aluno.idade,
+        formacao: aluno.formacao,
+        cursos: []
+      }
+      const id = await AlunoRepository.incluir(data);
       return new Mensagem('Aluno incluido com sucesso!', {
         id,
       });
@@ -41,8 +51,32 @@ export default class AlunoController {
     }
   }
 
-  async alterar(id: number, aluno: Aluno) {
-    const { nome, email, senha, tipo } = aluno;
+  async matricular(idAluno: number, idCurso: number) {
+
+    const curso = await new CursoController().obterPorId(Number(idCurso))
+    const getAluno = await new AlunoController().obterPorId(Number(idAluno))
+
+    const data : any = getAluno;
+
+    let mensagem = 'Aluno matriculado com sucesso!';
+
+    let matriculado = true;
+
+    if(getAluno.cursos.find(i => i.id = (Number(idCurso)))){
+      data.cursos = getAluno.cursos.filter(i => i.id !== (Number(idCurso)))
+      mensagem = 'Aluno desmatriculado com sucesso!';
+      matriculado = false;
+    } else {
+      data.cursos.push(curso)
+    }
+
+    await AlunoRepository.alterar({ id: idAluno }, data);
+
+    return new Mensagem(mensagem, { matriculado });
+  }
+
+  async alterar(id: number, aluno: Aluno, tipo: any) {
+    const { nome, email, senha } = aluno;
 
     Validador.validarParametros([{ id }, { nome }, { senha }]);
     Validador.validarAlterarEmail(id, email, tipo)

@@ -1,5 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import AulaController from '../controllers/aula.controller';
+import CursoController from '../controllers/curso.controller';
+import Curso from '../entities/curso.entity';
 import Aula from '../models/aula.model';
 import Mensagem from '../utils/mensagem';
 
@@ -51,6 +53,34 @@ router.get('/aula', async (req: Request, res: Response, next: NextFunction) => {
     const { idCurso } = req.query;
     const aulas: Aula[] = await new AulaController().listar(Number(idCurso));
     res.json(aulas);
+
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.get('/aulas', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+
+    const aulas = await new AulaController().listarTodos({});
+
+    res.json(aulas);
+   
+  } catch (e) {
+    next(e);
+  }
+});
+router.get('/home/aulas', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+
+    const aulas = await new AulaController().listarTodos({});
+
+    let data;
+    if(aulas)
+      data = aulas.slice(0, 5);
+    
+    res.json(data);
+   
   } catch (e) {
     next(e);
   }

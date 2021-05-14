@@ -2,6 +2,7 @@ import Professor from '../entities/professor.entity';
 import ProfessorRepository from '../repositories/professor.repository';
 import { FilterQuery } from '../utils/database/database';
 import Mensagem from '../utils/mensagem';
+import { TipoUsuario } from '../utils/tipo-usuario.enum';
 import { Validador } from '../utils/utils';
 
 export default class ProfessorController {
@@ -20,18 +21,18 @@ export default class ProfessorController {
     return await ProfessorRepository.listar(filtro);
   }
 
-  async listarTodos(): Promise<Professor[]> {
-    let data = await ProfessorRepository.listarTodos();
-    data = data.filter(data => data.tipo == 1)
-    return data
+  async contar(): Promise<number> {
+    const filtro = { tipo: TipoUsuario.PROFESSOR }
+    return await ProfessorRepository.contar(filtro);
   }
 
   // #pegabandeira
   async incluir(professor: Professor) {
     try{
-      const { nome, email, senha, tipo } = professor;
+      const { nome, email, senha } = professor;
       Validador.validarParametros([{ nome }, { email }, { senha }]);
       await Validador.validarEmailRepetido(email);
+
       const id = await ProfessorRepository.incluir(professor);
       return new Mensagem('Professor incluido com sucesso!', {
         id,
@@ -41,8 +42,8 @@ export default class ProfessorController {
     }
   }
 
-  async alterar(id: number, professor: Professor) {
-    const { nome, email, senha, tipo } = professor;
+  async alterar(id: number, professor: Professor, tipo: any) {
+    const { nome, email, senha } = professor;
 
     Validador.validarParametros([{ id }, { nome }, { senha }]);
     Validador.validarAlterarEmail(id, email, tipo)
@@ -54,12 +55,11 @@ export default class ProfessorController {
     });
   }
 
-  async excluir(id: number) {
+  async excluir(id: number, tipo: any) {
+
     Validador.validarParametros([{ id }]);
 
-    let tipo = (await new ProfessorController().obterPorId(id)).tipo;
-
-    Validador.validarExcluirProf(id, tipo)
+    await Validador.validarExcluirProf(id, tipo)
 
     await ProfessorRepository.excluir({ id });
 

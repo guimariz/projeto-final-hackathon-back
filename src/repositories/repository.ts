@@ -13,8 +13,8 @@ export default class Repository<T extends Entity> {
     return Database.listar<T>(filtro, this.table);
   }
 
-  async listarTodos(): Promise<T[]> {
-    return Database.listarTodos(this.table);
+  async contar(filtro?: FilterQuery<T>): Promise<number> {
+    return Database.contar<T>(filtro, this.table);
   }
 
   async obter(filtro: FilterQuery<T>): Promise<T> {

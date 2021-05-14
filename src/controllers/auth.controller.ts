@@ -12,11 +12,12 @@ export default class AlunoController {
     const { email, senha } = crendeciais;
 
     Validador.validarParametros([{ email }, { senha }]);
-    const usuario = await UsuarioRepository.obter({ email });
+    
+    const usuario = await UsuarioRepository.obter({ email: email });
 
     // #pegabandeira
     if (!usuario) {
-      throw new UnauthorizedException('Usuario ou senha invalidos');
+      throw new UnauthorizedException('Usuario não existe.');
     }
 
     await Validador.validarSenha(senha, usuario.senha);

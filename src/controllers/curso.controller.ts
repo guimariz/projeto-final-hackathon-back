@@ -18,21 +18,38 @@ export default class CursoController {
     return await CursoRepository.listar(filtro);
   }
 
-  async listarTodos(): Promise<Curso[]> {
-    return await CursoRepository.listarTodos();
+  async contar(): Promise<number> {
+    const filtro = {}
+    return await CursoRepository.contar(filtro);
   }
 
+
   async incluir(curso: Curso) {
-    const { nome, descricao, aulas, idProfessor } = curso;
-    Validador.validarParametros([{ nome }, { descricao }, { aulas }, { idProfessor }]);
+    try {
+      
+      const { nome, descricao, aulas, idProfessor } = curso;
+      Validador.validarParametros([{ nome }, { descricao }, { aulas }, { idProfessor }]);
+      
+      await Validador.validarNomeRepetido(nome);
 
-    Validador.validarNomeRepetido(nome);
+      await Validador.validarIsProf(idProfessor);
+
+      let data: any= {
+        nome: curso.nome,
+        descricao: curso.descricao,
+        idProfessor: curso.idProfessor,
+        aulas: curso.aulas,
+        notas: []
+      }
+
+      const id = await CursoRepository.incluir(data);
     
-    const id = await CursoRepository.incluir(curso);
-
-    return new Mensagem('Aula incluido com sucesso!', {
-      id,
-    });
+      return new Mensagem('Aula incluido com sucesso!', {
+        id,
+      });
+    } catch (error) {
+      throw error
+    }
   }
 
   async alterar(id: number, curso: Curso) {
@@ -46,14 +63,38 @@ export default class CursoController {
     });
   }
 
+  async incluirNota(idCurso, nota, idAluno, tipo) {
+
+    Validador.validarIncluirNota(tipo)
+
+    const newNota = {
+      nota: nota,
+      idAluno: idAluno
+    }
+
+    const curso : Curso = await new CursoController().obterPorId(idCurso);
+
+    let resultado = curso.notas.find(i => i.idAluno === idAluno)
+
+    if(resultado) {
+      resultado.nota = nota;
+    } else {
+      curso.notas.push(newNota)
+    }
+
+    const id = await CursoRepository.alterar({ id: idCurso }, curso);
+
+    return new Mensagem('Nota atribuída com sucesso!', {
+      id: id, 
+    });
+  }
+
   async excluir(id: number) {
     Validador.validarParametros([{ id }]);
 
-    // Validador.validarExcluirCurso(id);
-
     await CursoRepository.excluir({ id });
 
-    return new Mensagem('Aula excluido com sucesso!', {
+    return new Mensagem('Curso excluido com sucesso!', {
       id,
     });
   }
