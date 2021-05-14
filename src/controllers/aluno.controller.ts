@@ -18,7 +18,9 @@ export default class AlunoController {
 
   // #pegabandeira
   async listar(filtro: FilterQuery<Aluno> = {}): Promise<Aluno[]> {
-    return await AlunoRepository.listar(filtro);
+    const data = await AlunoRepository.listar(filtro);
+    data.forEach(i => delete i.senha)
+    return data
   }
 
   async contar(): Promise<number> {
@@ -42,7 +44,10 @@ export default class AlunoController {
         formacao: aluno.formacao,
         cursos: []
       }
+
       const id = await AlunoRepository.incluir(data);
+
+      
       return new Mensagem('Aluno incluido com sucesso!', {
         id,
       });
@@ -51,18 +56,19 @@ export default class AlunoController {
     }
   }
 
-  async matricular(idAluno: number, idCurso: number) {
+  async matricular(idCurso: number, email: string) {
 
     const curso = await new CursoController().obterPorId(Number(idCurso))
-    const getAluno = await new AlunoController().obterPorId(Number(idAluno))
+    const getAluno = await new AlunoController().obter({ email })
 
+      console.log(getAluno)
     const data : any = getAluno;
 
     let mensagem = 'Aluno matriculado com sucesso!';
 
     let matriculado = true;
 
-    if(getAluno.cursos.find(i => i.id = (Number(idCurso)))){
+    if(getAluno.cursos.find(i => i.id === Number(idCurso) )){
       data.cursos = getAluno.cursos.filter(i => i.id !== (Number(idCurso)))
       mensagem = 'Aluno desmatriculado com sucesso!';
       matriculado = false;
@@ -70,7 +76,7 @@ export default class AlunoController {
       data.cursos.push(curso)
     }
 
-    await AlunoRepository.alterar({ id: idAluno }, data);
+    await AlunoRepository.alterar({ id: getAluno.id }, data);
 
     return new Mensagem(mensagem, { matriculado });
   }

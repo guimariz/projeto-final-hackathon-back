@@ -31,6 +31,7 @@ export default class AlunoController {
         email: usuario.email,
         nome: usuario.nome,
         tipo: usuario.tipo,
+        id: usuario.id
       },
       token: accessToken,
       expires: getTime(Date.now() / 1000) + 604800,

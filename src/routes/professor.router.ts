@@ -50,22 +50,13 @@ router.get('/professor/:id', async (req: Request, res: Response, next: NextFunct
 
 router.get('/professor', async (req: any, res: Response, next: NextFunction) => {
   try {
-    const professores: Professor[] = await new ProfessorController().listar({tipo: TipoUsuario.PROFESSOR});
-    res.json(professores);
-  } catch (e) {
-    next(e);
-  }
-});
-
-router.get('/home/professor', async (req: any, res: Response, next: NextFunction) => {
-  try {
-    const professores: Professor[] = await new ProfessorController().listar({tipo: TipoUsuario.PROFESSOR});
-
-    let data;
-    if(professores)
-      data = professores.slice(0, 5);
+    const { home } = req.query;
+    let professores: Professor[] = await new ProfessorController().listar({tipo: TipoUsuario.PROFESSOR});
     
-    res.json(data);
+    if(home)
+      professores = professores.slice(0, 5)
+
+    res.json(professores);
   } catch (e) {
     next(e);
   }

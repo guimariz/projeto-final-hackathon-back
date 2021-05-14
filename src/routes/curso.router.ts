@@ -14,10 +14,11 @@ router.post('/curso', async (req: Request, res: Response, next: NextFunction) =>
   }
 })
 
-router.put('/curso/nota/', async (req: Request, res: Response, next: NextFunction) => {
+router.put('/curso/nota/', async (req: any, res: Response, next: NextFunction) => {
   try {
-    const { idCurso, nota, idAluno, tipo } = req.body
-    const mensagem: Mensagem = await new CursoController().incluirNota(idCurso, nota, idAluno, tipo);
+    const { idCurso, nota } = req.body
+    const { email, tipo } = req.uid
+    const mensagem: Mensagem = await new CursoController().incluirNota(idCurso, nota, email, tipo);
     res.json(mensagem);
   } catch (e) {
     next(e);
@@ -55,8 +56,9 @@ router.get('/curso/qtd', async (req: any, res: Response, next: NextFunction) => 
 
 router.get('/curso/prof/:id', async (req: any, res: Response, next: NextFunction) => {
   try {
+    const { email } = req.uid 
     const { id } = req.params;
-    const data = await new CursoController().listar({ idProfessor: Number(id) });
+    const data = await new CursoController().listar({ idProfessor: Number(id)}, email);
     res.json(data);
   } catch (e) {
     next(e);
@@ -73,22 +75,16 @@ router.get('/curso/:id', async (req: Request, res: Response, next: NextFunction)
   }
 });
 
-router.get('/curso', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/curso', async (req: any, res: Response, next: NextFunction) => {
   try {
-    const cursos: Curso[] = await new CursoController().listar({});
+    const { email } = req.uid 
+    const { home } = req.query 
+    let cursos: Curso[] = await new CursoController().listar({}, email);
+
+    if(home)
+      cursos = cursos.slice(0, 5)
+
     res.json(cursos);
-  } catch (e) {
-    next(e);
-  }
-});
-router.get('/home/curso', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const cursos: Curso[] = await new CursoController().listar({});
-    let data;
-    if(cursos)
-      data = cursos.slice(0, 5);
-    
-    res.json(data);
   } catch (e) {
     next(e);
   }

@@ -18,7 +18,9 @@ export default class ProfessorController {
 
   // #pegabandeira
   async listar(filtro: FilterQuery<Professor> = {}): Promise<Professor[]> {
-    return await ProfessorRepository.listar(filtro);
+    const data = await ProfessorRepository.listar(filtro);
+    data.forEach(i => delete i.senha)
+    return data
   }
 
   async contar(): Promise<number> {

@@ -8,6 +8,9 @@ export default class Curso extends Entity {
   idProfessor?: number;
   aulas?: Aula[];
   notas?: Nota[];
+  nota?: number;
+  matriculado?: boolean;
+  mediaNotas?: number;
 
   constructor() {
     super();

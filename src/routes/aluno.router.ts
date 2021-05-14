@@ -17,12 +17,12 @@ router.put('/aluno/:id', async (req: any, res: Response, next: NextFunction) => 
   }
 });
 
-router.put('/matricular/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.put('/matricular/:idCurso', async (req: any, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
-    const { idCurso } = req.body;
+    const { idCurso } = req.params;
+    const { email } = req.uid;
 
-    const mensagem: Mensagem = await new AlunoController().matricular(Number(id), idCurso);
+    const mensagem: Mensagem = await new AlunoController().matricular(Number(idCurso), email);
     res.json(mensagem);   
   } catch (e) {
     next(e);
@@ -58,10 +58,10 @@ router.get('/aluno/:id', async (req: Request, res: Response, next: NextFunction)
   }
 });
 
-router.get('/aluno/nome/:nome', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/aluno/email/:email', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { nome } = req.params;
-    const aluno: Aluno = await new AlunoController().obter({nome: nome });
+    const { email } = req.params;
+    const aluno: Aluno = await new AlunoController().obter({email: email });
     res.json(aluno);
   } catch (e) {
     next(e);

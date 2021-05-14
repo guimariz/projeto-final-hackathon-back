@@ -61,25 +61,10 @@ router.get('/aula', async (req: Request, res: Response, next: NextFunction) => {
 
 router.get('/aulas', async (req: Request, res: Response, next: NextFunction) => {
   try {
-
+    const { home } = req.query
     const aulas = await new AulaController().listarTodos({});
 
     res.json(aulas);
-   
-  } catch (e) {
-    next(e);
-  }
-});
-router.get('/home/aulas', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-
-    const aulas = await new AulaController().listarTodos({});
-
-    let data;
-    if(aulas)
-      data = aulas.slice(0, 5);
-    
-    res.json(data);
    
   } catch (e) {
     next(e);

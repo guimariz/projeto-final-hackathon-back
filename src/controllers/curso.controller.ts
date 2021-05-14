@@ -1,4 +1,6 @@
 import Curso from '../entities/curso.entity';
+import AlunoRepository from '../repositories/aluno.repository';
+import cursoRepository from '../repositories/curso.repository';
 import CursoRepository from '../repositories/curso.repository';
 import { FilterQuery } from '../utils/database/database';
 import Mensagem from '../utils/mensagem';
@@ -14,8 +16,23 @@ export default class CursoController {
     return await CursoRepository.obter(filtro);
   }
 
-  async listar(filtro: FilterQuery<Curso> = {}): Promise<Curso[]> {
-    return await CursoRepository.listar(filtro);
+  async listar(filtro: FilterQuery<Curso> = {}, email = null): Promise<Curso[]> {
+    let lista = await CursoRepository.listar(filtro);
+    
+      if(email) {
+        const usuario = await AlunoRepository.obter({ email })
+        //retirar ids de dentro do array de cursos
+        const idCursos = usuario.cursos.map(i => i.id)
+        lista.forEach(i => i.matriculado = idCursos.includes(i.id))
+        lista.forEach(i => {
+          i.mediaNotas = i.notas.reduce((acc, value) => acc += value.nota, 0)/i.notas.length
+          const notaAluno = i.notas.find(i => i.idAluno === usuario.id)
+          i.nota = notaAluno ? notaAluno.nota : null;
+          delete i.notas
+        })
+      }
+    
+    return lista
   }
 
   async contar(): Promise<number> {
@@ -63,24 +80,28 @@ export default class CursoController {
     });
   }
 
-  async incluirNota(idCurso, nota, idAluno, tipo) {
+  async incluirNota(idCurso, nota, email, tipo) {
 
     Validador.validarIncluirNota(tipo)
 
+    const usuario = await AlunoRepository.obter({ email })
+
     const newNota = {
       nota: nota,
-      idAluno: idAluno
+      idAluno: usuario.id
     }
 
     const curso : Curso = await new CursoController().obterPorId(idCurso);
 
-    let resultado = curso.notas.find(i => i.idAluno === idAluno)
+    let resultado = curso.notas.find(i => i.idAluno === usuario.id)
 
     if(resultado) {
       resultado.nota = nota;
     } else {
       curso.notas.push(newNota)
     }
+
+    console.log(curso)
 
     const id = await CursoRepository.alterar({ id: idCurso }, curso);
 
