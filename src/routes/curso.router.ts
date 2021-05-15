@@ -45,15 +45,6 @@ router.delete('/curso/:id', async (req: Request, res: Response, next: NextFuncti
   }
 });
 
-router.get('/curso/qtd', async (req: any, res: Response, next: NextFunction) => {
-  try {
-    let qtd = await new CursoController().contar();
-    res.json(qtd);
-  } catch (e) {
-    next(e);
-  }
-});
-
 router.get('/curso/prof/:id', async (req: any, res: Response, next: NextFunction) => {
   try {
     const { email } = req.uid 

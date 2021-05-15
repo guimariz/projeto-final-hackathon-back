@@ -16,21 +16,23 @@ router.post('/aula', async (req: Request, res: Response, next: NextFunction) => 
   }
 });
 
-router.put('/aula/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.put('/aula/:id', async (req: any, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
-    const mensagem: Mensagem = await new AulaController().alterar(Number(id), req.body);
+    const { tipo } = req.uid
+    const mensagem: Mensagem = await new AulaController().alterar(Number(id), req.body, tipo);
     res.json(mensagem);
   } catch (e) {
     next(e);
   }
 });
 
-router.delete('/aula/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.delete('/aula/:id', async (req: any, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
     const { idCurso } = req.query;
-    const aulas: Mensagem = await new AulaController().excluir(Number(id), Number(idCurso));
+    const { tipo } = req.uid
+    const aulas: Mensagem = await new AulaController().excluir(Number(id), Number(idCurso), tipo);
     res.json(aulas);
   } catch (e) {
     next(e);
@@ -62,7 +64,10 @@ router.get('/aula', async (req: Request, res: Response, next: NextFunction) => {
 router.get('/aulas', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { home } = req.query
-    const aulas = await new AulaController().listarTodos({});
+    let aulas = await new AulaController().listarTodos({});
+
+    if(home && aulas && aulas.length)
+      aulas = aulas.slice(0, 5)
 
     res.json(aulas);
    

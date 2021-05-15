@@ -1,1 +1,22 @@
-{"ALUNO":[],"CURSO":[{"nome":"11111","descricao":"1111111111","idProfessor":1,"aulas":[{"nome":"11111111","duracao":1111111,"idCurso":1,"topicos":"1111","id":1}],"notas":[{"nota":1,"idAluno":12}],"id":1},{"nome":"222222","descricao":"2222222","idProfessor":1,"aulas":[{"nome":"22221","duracao":2222222,"idCurso":2,"topicos":"2222222"}],"notas":[{"nota":1,"idAluno":12}],"id":2,"senha":"","email":null,"tipo":null,"idade":null,"formacao":null},{"nome":"33333333","descricao":"3333333","idProfessor":5,"aulas":[{"nome":"3333333333333333","duracao":33333333,"idCurso":3,"topicos":"3333","id":1}],"notas":[{"nota":5,"idAluno":12}],"id":3}],"USUARIO":[{"email":"prof1@email.com","senha":"$2a$08$rURai.fD141k7si4tQrEeebQQjh9cGScXe1N6DHO.3MRhOyW0TSVC","nome":"Professor 1","tipo":1,"idade":null,"formacao":null,"id":1},{"email":"prof2@email.com","senha":"$2a$08$rURai.fD141k7si4tQrEeebQQjh9cGScXe1N6DHO.3MRhOyW0TSVC","nome":"Professor 3","tipo":1,"idade":null,"formacao":null,"id":5,"descricao":null,"idProfessor":null,"aulas":[{"nome":"Professor 2","duracao":null,"idCurso":null,"topicos":null}]},{"email":"prof1","senha":"$2a$08$rURai.fD141k7si4tQrEeebQQjh9cGScXe1N6DHO.3MRhOyW0TSVC","nome":"123","tipo":1,"idade":null,"formacao":null,"id":8},{"email":"prof1232132","senha":"$2a$08$/3QmM2tl6oQt/9EPbUYfO.jKdDhDJ6Con/P2memQdU4bPs7iJGWeu","nome":"222123","tipo":1,"idade":null,"formacao":null,"id":9,"descricao":null,"idProfessor":null,"aulas":[{"nome":"222123","duracao":null,"idCurso":null,"topicos":null}]},{"email":"aluno","senha":"$2a$08$2fc2Mkj3aLNSzZlNNRJ/oOT8ZVp9Eb8UZvdOrdv1VgHZqvfQOQKaK","nome":"Aluno","tipo":2,"idade":"123","formacao":"123","cursos":[{"nome":"33333333","descricao":"3333333","idProfessor":5,"aulas":[{"nome":"3333333333333333","duracao":33333333,"idCurso":3,"topicos":"3333","id":1}],"notas":[],"id":3}],"id":10},{"email":"professor","senha":"$2a$08$yjvvKdzNj1zMCTIOCnJnTuSedts.lAfvjRS0R//Cnq0qVhq1rMaq.","nome":"12321","tipo":1,"idade":null,"formacao":null,"id":11,"descricao":null,"idProfessor":null,"aulas":[{"nome":"111111111111111","duracao":null,"idCurso":null,"topicos":null}]},{"email":"aluno1","senha":"$2a$08$BGcVqdWuLKOvJs/ySyBgXuoHF08Ty6GTmJv1q3PHzwyD/UOo2LD1O","nome":"aluno123","tipo":2,"idade":"123","formacao":"123","cursos":[{"nome":"33333333","descricao":"3333333","idProfessor":5,"aulas":[{"nome":"3333333333333333","duracao":33333333,"idCurso":3,"topicos":"3333","id":1}],"notas":[{"nota":0,"idAluno":12}],"id":3},{"nome":"11111","descricao":"1111111111","idProfessor":1,"aulas":[{"nome":"11111111","duracao":1111111,"idCurso":1,"topicos":"1111","id":1}],"notas":[{"nota":5,"idAluno":12}],"id":1}],"id":12}]}
+{
+  "ALUNO": [],
+  "CURSO": [],
+  "USUARIO": [
+    {
+      "nome": "Professor 1",
+      "email": "prof1@email.com",
+      "senha": "$2a$08$hUj.5XlqNyThl3VNEPutuOlIUr3E679N2kknERMGeR6mMOi5awmCi",
+      "tipo": 1,
+      "id": 1
+    },
+    {
+      "nome": "Aluno 1",
+      "formacao": "Sistema de Informacao",
+      "idade": 20,
+      "email": "aluno1@email.com",
+      "senha": "$2a$08$w0r2zw5Barew36ok7JApwORJp4pyE/1UVI4y3DwpabRHx8xhkKwhG",
+      "tipo": 2,
+      "id": 2
+    }
+  ]
+}

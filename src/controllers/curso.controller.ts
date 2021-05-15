@@ -22,9 +22,12 @@ export default class CursoController {
       if(email) {
         const usuario = await AlunoRepository.obter({ email })
         //retirar ids de dentro do array de cursos
-        const idCursos = usuario.cursos.map(i => i.id)
-        lista.forEach(i => i.matriculado = idCursos.includes(i.id))
+        let idCursos = [];
+        if(usuario.cursos) {
+          idCursos = usuario.cursos.map(i => i.id)
+        }
         lista.forEach(i => {
+          i.matriculado = idCursos.includes(i.id)
           i.mediaNotas = i.notas.reduce((acc, value) => acc += value.nota, 0)/i.notas.length
           const notaAluno = i.notas.find(i => i.idAluno === usuario.id)
           i.nota = notaAluno ? notaAluno.nota : null;
@@ -111,12 +114,19 @@ export default class CursoController {
   }
 
   async excluir(id: number) {
-    Validador.validarParametros([{ id }]);
+    try {
 
-    await CursoRepository.excluir({ id });
+      Validador.validarParametros([{ id }]);
 
-    return new Mensagem('Curso excluido com sucesso!', {
-      id,
-    });
+      await Validador.validarMatriculado(id)
+      
+      await CursoRepository.excluir({ id });
+      
+      return new Mensagem('Curso excluido com sucesso!', {
+        id,
+      });
+    }catch(err){
+      throw err
+    }
   }
 }

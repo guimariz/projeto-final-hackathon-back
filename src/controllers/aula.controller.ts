@@ -52,8 +52,7 @@ export default class AulaController {
     if(curso.aulas.length) {
       const idAnterior = curso.aulas[curso.aulas.length - 1].id;
       aula.id = idAnterior ? idAnterior + 1 : 1;
-    }
-  
+    }  
 
     curso.aulas.push(aula);
     await CursoRepository.alterar({ id: idCurso }, curso);
@@ -64,9 +63,14 @@ export default class AulaController {
     });
   }
 
-  async alterar(id: number, aula: Aula) {
+  async alterar(id: number, aula: Aula, tipo) {
+
+    console.log(id)
+    console.log(aula)
     const { nome, duracao, topicos, idCurso } = aula;
     Validador.validarParametros([{ id }, { idCurso }, { nome }, { duracao }, { topicos }]);
+
+    Validador.validarAula(tipo)
 
     const curso = await CursoRepository.obterPorId(idCurso);
 
@@ -86,8 +90,10 @@ export default class AulaController {
     });
   }
 
-  async excluir(id: number, idCurso: number) {
+  async excluir(id: number, idCurso: number, tipo) {
     Validador.validarParametros([{ id }, { idCurso }]);
+
+    Validador.validarAula(tipo)
 
     const curso = await CursoRepository.obterPorId(idCurso);
 

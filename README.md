@@ -28,13 +28,13 @@ Incluir => incluir um aluno seguindo as seguintes regras: Não permitir incluir 
 PRONTO --------------------------------------------------------------
 
 Alterar => alterar um aluno seguindo as seguintes regras: Não permitir alterar o e-mail, validar obrigatoriedade dos campos nome, senha, criptografar a senha antes de inserir na base utilizando os recursos já disponíveis no código, somente o próprio aluno ou um professor pode altera seus dados
-<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< falta criar área aluno
+PRONTO --------------------------------------------------------------
 
 Excluir => excluir um aluno seguindo as seguintes regras: Não permitir que o aluno seja excluido caso esteja matriculado a algum curso, somente um professor pode excluir um aluno
-<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< falta criar área aluno
+PRONTO --------------------------------------------------------------
 
 Matricular Curso => matricular um aluno em um curso seguindo as seguintes regras: Não permitir que o aluno matricule-se mais de uma vez no mesmo curso
-<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< falta criar área aluno
+PRONTO --------------------------------------------------------------
 
 Curso:
 
@@ -48,21 +48,25 @@ Alterar => alterar um curso seguindo as seguintes regras: Validar obrigatoriedad
 PRONTO --------------------------------------------------------------
 
 Excluir => excluir um curso seguindo as seguintes regras: Não permitir que o curso seja excluido caso tenha alunos matriculados
-<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< falta criar área aluno
-
+<<
 Aula:
 
 Listar => listar todos as aulas de um determinado curso
+PRONTO --------------------------------------------------------------
 
 Incluir => incluir uma aula seguindo as seguintes regras: Não permitir incluir com nome repetido, validar obrigatoriedade dos campos nome, duracao, curso e topicos, somente um professor pode incluir uma aula
+PRONTO --------------------------------------------------------------
 
 Alterar => alterar uma aula seguindo as seguintes regras: Validar obrigatoriedade dos campos nome, duracao, curso e topicos, somente um professor pode alterar uma aula
+PRONTO --------------------------------------------------------------
 
 Excluir => excluir uma aula seguindo as seguintes regras: somente um professor pode excluir uma aula
+PRONTO --------------------------------------------------------------
 
 Avaliação Curso
 
 Criar funcionalidade para o aluno avaliar o curso seguindo as seguintes regras: a nota vai de 0 a 5, somente uma avaliação por aluno, o aluno pode alterar sua nota de avaliação, professor não pode avaliar o curso
+PRONTO --------------------------------------------------------------
 
 # Pega Bandeira
 

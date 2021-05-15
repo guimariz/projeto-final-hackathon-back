@@ -81,11 +81,12 @@ export default class AlunoController {
     return new Mensagem(mensagem, { matriculado });
   }
 
-  async alterar(id: number, aluno: Aluno, tipo: any) {
+  async alterar(id: number, aluno: Aluno, tipo: any, emailUid) {
     const { nome, email, senha } = aluno;
 
     Validador.validarParametros([{ id }, { nome }, { senha }]);
     Validador.validarAlterarEmail(id, email, tipo)
+    Validador.validarProprioAluno(email, emailUid, tipo)
 
     await AlunoRepository.alterar({ id }, aluno);
 

@@ -28,16 +28,6 @@ router.delete('/professor/:id', async (req: any, res: Response, next: NextFuncti
   }
 });
 
-router.get('/professor/qtd', async (req: any, res: Response, next: NextFunction) => {
-  try {
-    let qtd = await new ProfessorController().contar();
-
-    res.json(qtd);
-  } catch (e) {
-    next(e);
-  }
-});
-
 router.get('/professor/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;

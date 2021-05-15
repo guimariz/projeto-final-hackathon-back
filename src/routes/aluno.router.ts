@@ -9,8 +9,8 @@ const router = express.Router();
 router.put('/aluno/:id', async (req: any, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
-    const { tipo } = req.uid;
-    const mensagem: Mensagem = await new AlunoController().alterar(Number(id), req.body, tipo);
+    const { tipo, email } = req.uid;
+    const mensagem: Mensagem = await new AlunoController().alterar(Number(id), req.body, tipo, email);
     res.json(mensagem);
   } catch (e) {
     next(e);
@@ -39,15 +39,6 @@ router.delete('/aluno/:id', async (req: any, res: Response, next: NextFunction) 
   }
 });
 
-router.get('/aluno/qtd', async (req: any, res: Response, next: NextFunction) => {
-  try {
-    let qtd = await new AlunoController().contar();
-    res.json(qtd);
-  } catch (e) {
-    next(e);
-  }
-});
-
 router.get('/aluno/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
@@ -70,22 +61,13 @@ router.get('/aluno/email/:email', async (req: Request, res: Response, next: Next
 
 router.get('/aluno', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const alunos: Aluno[] = await new AlunoController().listar({tipo: TipoUsuario.ALUNO});
+    const { home } = req.query
+    let alunos: Aluno[] = await new AlunoController().listar({tipo: TipoUsuario.ALUNO});
+
+    if(home)
+      alunos = alunos.slice(0, 5)
+
     res.json(alunos);
-  } catch (e) {
-    next(e);
-  }
-});
-
-router.get('/home/aluno', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const alunos: Aluno[] = await new AlunoController().listar({tipo: TipoUsuario.ALUNO});
-    
-    let data;
-    if(alunos)
-      data = alunos.slice(0, 5);
-
-    res.json(data);
   } catch (e) {
     next(e);
   }

@@ -57,6 +57,12 @@ export const Validador = {
     }
   },
 
+  validarProprioAluno: (email, emailUid, tipo) => {
+    if(email !== emailUid && tipo !== TipoUsuario.PROFESSOR) {
+      throw new Exception('Sem permissão para editar o aluno.')
+    }
+  },
+
   validarNomeRepetido: async (nome: string) => {
     try {
       const data = await new CursoController().listar({nome: nome})
@@ -66,6 +72,37 @@ export const Validador = {
       }
     } catch (error) {
       throw error
+    }
+  },
+
+  validarMatriculado: async (id: number) => {
+    try{ 
+      const data = await new AlunoController().listar()
+      let alunos = false;
+      
+      data.forEach(i => {
+        if(i.cursos)
+          alunos = !!i.cursos.find(i => i.id === id)
+      })
+
+      console.log(alunos)
+
+      if(alunos) {
+        throw new Exception('Curso não pode ser excluído tendo alunos matriculados.')
+      }
+
+    }catch (err) {
+      throw err
+    }
+  },
+
+  validarAula: (tipo) => {
+    try {
+      if(tipo !== TipoUsuario.PROFESSOR) {
+        throw new Exception('Você não tem permissão para alterar essa aula.')
+      }
+    } catch(err) {
+      throw err
     }
   },
 
